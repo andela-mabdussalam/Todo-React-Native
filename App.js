@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import TaskList from './TaskList';
 
 export default class App extends React.Component {
@@ -9,22 +8,18 @@ export default class App extends React.Component {
       todos: [
         {
           task: 'Learn React Native',
+        },
+        {
+          task: 'Learning something else',
         }
       ]
-    }
+    };
   }
   render() {
     return (
-     <TaskList />
+     <TaskList
+       todos={this.state.todos}
+     />
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

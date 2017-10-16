@@ -1,23 +1,49 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-
-class TaskList extends React.Component {
-  render() {
-    return (
-    <View style={styles.container}>
-      <Text>Best app ever!</Text>
-    </View>
-    )
-  }
-}
+import PropTypes from 'prop-types';
+import { StyleSheet, View, ListView } from 'react-native';
+import TaskRow from './TaskRow';
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 40,
+    backgroundColor: '#F7F7F7',
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
 });
+class TaskList extends React.Component {
+  constructor(props, context) {
+    super(props, context);
 
+    const ds = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2
+    });
+
+    this.state = {
+      dataSource: ds.cloneWithRows(props.todos),
+    };
+    this.renderRow = this.renderRow.bind(this);
+  }
+
+  renderRow(todo) {
+    return (
+      <TaskRow todo={todo} />
+    );
+  }
+  render() {
+    return (
+    <View style={styles.container}>
+      <ListView
+       dataSource={this.state.dataSource}
+       key={this.props.todos}
+       renderRow={this.renderRow}
+      />
+    </View>
+    );
+  }
+}
+
+TaskList.propTypes = {
+  todos: PropTypes.arrayOf(React.PropTypes.object).isRequired,
+};
 export default TaskList;
